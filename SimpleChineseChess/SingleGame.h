@@ -16,6 +16,7 @@
 
 class SingleGame: public Board
 {
+    Q_OBJECT
 public:
     virtual void clickStone(int id, int row, int col);
     SingleGame();
@@ -25,7 +26,13 @@ public:
     void fakeMove(std::shared_ptr<Step> step);
     void unfakeMove(std::shared_ptr<Step> step);
     int calcScore();
+    int getMinScore(int level, int currMaxScore);
+    int getMaxScore(int level, int currMinScore);
     void relieveStone(int id, int row, int col);
+
+    int _level;
+public slots:
+    void computerMove();
 };
 
 #endif // SINGLEGAME_H

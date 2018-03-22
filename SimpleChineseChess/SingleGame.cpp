@@ -10,12 +10,22 @@
  */
 
 #include "SingleGame.h"
+#include <QTimer>
 
 static const int INF = 999999;
 
 SingleGame::SingleGame()
 {
+    _level = 3;
+}
 
+void SingleGame::computerMove()
+{
+    auto step = getBestMove();
+    killStone(step->_killId);
+    moveStone(step->_moveId, step->_rowTo, step->_colTo);
+    _selectedId = -1;
+    update();
 }
 
 void SingleGame::clickStone(int id, int row, int col)
@@ -26,20 +36,23 @@ void SingleGame::clickStone(int id, int row, int col)
 
     if (!_isRedTurn)
     {
-        auto step = getBestMove();
-        killStone(step->_killId);
-        moveStone(step->_moveId, step->_rowTo, step->_colTo);
-        _selectedId = -1;
-        update();
+        // 启动0.1秒定时器，在0.1秒后电脑再思考
+        QTimer::singleShot(100, this, SLOT(computerMove()));
     }
     return;
 }
 
 void SingleGame::getAllPossibleMove(QVector<std::shared_ptr<Step> > &steps)
 {
+    int min= 16, max = 32;
+    if (_isRedTurn)
+    {
+        min = 0;
+        max = 16;
+    }
     for (auto p : _posMap)
     {
-        if (p.second < 16)
+        if (p.second < min || p.second >= max)
             continue;
 
         for (int row = 0; row < 10; ++row)
@@ -86,7 +99,7 @@ void SingleGame::unfakeMove(std::shared_ptr<Step> step)
 int SingleGame::calcScore()
 {
 //    enum TYPE {JIANG, CHE, PAO, MA, BING, SHI, XIANG};
-    static int chessScore[] = {1500, 100, 50, 50, 20, 10, 10};
+    static int chessScore[] = {50000, 100, 50, 50, 20, 5, 5};
 
     // 黑棋分的总数-红旗分的总数
     int sumRedSocore = 0, sumBlackScore = 0;
@@ -98,6 +111,58 @@ int SingleGame::calcScore()
             sumBlackScore += chessScore[_s[p.second]._type];
     }
     return sumBlackScore - sumRedSocore;
+}
+
+int SingleGame::getMaxScore(int level, int currMinScore)
+{
+    if (level == 0) return calcScore();
+    QVector<std::shared_ptr<Step>> steps;
+    getAllPossibleMove(steps);
+
+    int maxScore = -INF;
+    for (auto step : steps)
+    {
+        fakeMove(step);
+        int score = getMinScore(level - 1, maxScore);
+        unfakeMove(step);
+
+        if (score >= currMinScore)
+        {
+            return score;
+        }
+
+        if (score > maxScore)
+        {
+            maxScore = score;
+        }
+    }
+    return maxScore;
+}
+
+int SingleGame::getMinScore(int level, int currMaxScore)
+{
+    if (level == 0) return calcScore();
+    QVector<std::shared_ptr<Step>> steps;
+    getAllPossibleMove(steps);
+
+    int minScore = INF;
+    for (auto step : steps)
+    {
+        fakeMove(step);
+        int score = getMaxScore(level - 1, minScore);
+        unfakeMove(step);
+
+        if (score <= currMaxScore)
+        {
+            return score;
+        }
+
+        if (score < minScore)
+        {
+            minScore = score;
+        }
+    }
+    return minScore;
 }
 
 std::shared_ptr<Step> SingleGame::getBestMove()
@@ -116,7 +181,7 @@ std::shared_ptr<Step> SingleGame::getBestMove()
     for (auto step : steps)
     {
         fakeMove(step);
-        int score = calcScore();
+        int score = getMinScore(_level - 1, -INF);
         unfakeMove(step);
 
         if (score > maxScore)

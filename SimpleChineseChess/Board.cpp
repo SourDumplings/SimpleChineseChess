@@ -309,13 +309,13 @@ bool Board::canMoveJIANG(int moveId, int row, int col, int killId)
     }
 
     if (col < 3 || col > 5) return false;
-    if (_s[moveId]._red)
+    if (isBottom(moveId))
     {
-        if (row > 2) return false;
+        if (row < 7) return false;
     }
     else
     {
-        if (row < 7) return false;
+        if (row > 2) return false;
     }
 
     int dr = _s[moveId]._row - row;
@@ -332,7 +332,7 @@ bool Board::canMoveSHI(int moveId, int row, int col, int)
      * 只能走对角线
      * */
     if (col < 3 || col > 5) return false;
-    if (_s[moveId]._red)
+    if (isBottom(moveId))
     {
         if (row > 2) return false;
     }
@@ -405,7 +405,7 @@ bool Board::canMoveBING(int moveId, int row, int col, int)
     int d = abs(dr) * 10 + abs(dc);
     if (isBottom(moveId))
     {
-        if (_s[_selectedId]._row > 4)
+        if (_s[moveId]._row > 4)
             return dr == 1 && dc == 0;
         else
         {
@@ -419,7 +419,7 @@ bool Board::canMoveBING(int moveId, int row, int col, int)
     }
     else
     {
-        if (_s[_selectedId]._row < 5)
+        if (_s[moveId]._row < 5)
             return dr == -1 && dc == 0;
         else
         {

@@ -15,7 +15,13 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    SingleGame board;
+
+//    // 人机对战
+//    SingleGame board;
+//     双人模式
+    Board board;
+
     board.show();
+
     return app.exec();
 }
