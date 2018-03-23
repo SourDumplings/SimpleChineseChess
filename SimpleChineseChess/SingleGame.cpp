@@ -24,15 +24,16 @@ void SingleGame::computerMove()
     auto step = getBestMove();
     saveStep(step, _steps);
     killStone(step->_killId);
-//    if (_s[step->_killId]._type == Stone::JIANG)
-//    {
-//        if (_s[step->_killId]._red)
-//        {
-//            _isRedJiangAlive = false;
-//        }
-//        sigOver();
-//    }
     moveStone(step->_moveId, step->_rowTo, step->_colTo);
+    if (_s[step->_killId]._type == Stone::JIANG)
+    {
+        if (_s[step->_killId]._red)
+        {
+            emit sigBlackWin();
+        }
+        else
+            emit sigRedWin();
+    }
     _selectedId = -1;
     update();
 }

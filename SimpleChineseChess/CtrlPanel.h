@@ -24,11 +24,12 @@ class CtrlPanel : public QWidget
 public:
     explicit CtrlPanel(QWidget *parent = nullptr);
 
-    QPushButton* _back;
+    QPushButton  *_back, *_reStart;
     QLabel *_label;
 
 signals:
     void sigBack();
+    void sigReStart();
 
 public slots:
 };

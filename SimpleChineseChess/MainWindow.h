@@ -24,6 +24,8 @@ public:
 signals:
 
 public slots:
+    void slotBlackWin();
+    void slotRedWin();
 };
 
 #endif // MAINWINDOW_H

@@ -28,13 +28,14 @@ class Board : public QFrame
 public:
     explicit Board(QWidget *parent = nullptr);
 
+    void init();
+
     const int _r = 20; // 棋子的半径
 
     Stone _s[32];
     std::map<std::pair<int, int>, int> _posMap; // 存储各个棋子的棋盘坐标
     int _selectedId;
     bool _isRedTurn;
-    bool _isRedJiangAlive = true;
 
     QVector<std::shared_ptr<Step>> _steps;
 
@@ -75,9 +76,11 @@ public:
     bool canMoveXIANG(int moveId, int row, int col, int killId);
 
 signals:
-//    void sigOver();
+    void sigRedWin();
+    void sigBlackWin();
 public slots:
     void slotBack();
+    void slotReStart();
 };
 
 #endif // BOARD_H

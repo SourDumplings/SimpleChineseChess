@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include "MultiGame.h"
 #include "SingleGame.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(int gameType, QWidget *parent) : QWidget(parent)
 {
@@ -26,6 +27,9 @@ MainWindow::MainWindow(int gameType, QWidget *parent) : QWidget(parent)
         hLay->addWidget(game, 1);
         hLay->addWidget(panel);
         connect(panel, SIGNAL(sigBack()), game, SLOT(slotBack()));
+        connect(panel, SIGNAL(sigReStart()), game, SLOT(slotReStart()));
+        connect(game, SIGNAL(sigBlackWin()), this, SLOT(slotBlackWin()));
+        connect(game, SIGNAL(sigRedWin()), this, SLOT(slotRedWin()));
     }
     else if(gameType == 2)
     {
@@ -36,5 +40,20 @@ MainWindow::MainWindow(int gameType, QWidget *parent) : QWidget(parent)
         hLay->addWidget(game, 1);
         hLay->addWidget(panel);
         connect(panel, SIGNAL(sigBack()), game, SLOT(slotBack()));
+        connect(panel, SIGNAL(sigReStart()), game, SLOT(slotReStart()));
+        connect(game, SIGNAL(sigBlackWin()), this, SLOT(slotBlackWin()));
+        connect(game, SIGNAL(sigRedWin()), this, SLOT(slotRedWin()));
     }
+}
+
+void MainWindow::slotBlackWin()
+{
+    QMessageBox::about(nullptr, "Game Over", "黑方胜。");
+    return;
+}
+
+void MainWindow::slotRedWin()
+{
+    QMessageBox::about(nullptr, "Game Over", "红方胜。");
+    return;
 }

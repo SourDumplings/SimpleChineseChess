@@ -30,5 +30,7 @@ CtrlPanel::CtrlPanel(QWidget *parent) : QWidget(parent)
     lLay->addWidget(_label);
 
     bLay->addWidget(_back = new QPushButton("悔一步"));
+    bLay->addWidget(_reStart = new QPushButton("重来"));
     connect(_back, SIGNAL(clicked()), this, SIGNAL(sigBack()));
+    connect(_reStart, SIGNAL(clicked()), this, SIGNAL(sigReStart()));
 }

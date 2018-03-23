@@ -17,6 +17,12 @@
 
 Board::Board(QWidget *parent) : QFrame(parent)
 {
+    init();
+}
+
+
+void Board::init()
+{
     for (int i = 0; i != 32; ++i)
     {
         _s[i].init(i);
@@ -25,6 +31,16 @@ Board::Board(QWidget *parent) : QFrame(parent)
     setMinimumSize(_r*20+1, _r*23+1);
     _selectedId = -1;
     _isRedTurn = true;
+    return;
+}
+
+void Board::slotReStart()
+{
+    _steps.clear();
+    _posMap.clear();
+    init();
+    update();
+    return;
 }
 
 
@@ -207,15 +223,16 @@ void Board::tryMoveStone(int killId, int row, int col)
     {
         saveStep(_selectedId, row, col, _steps, killId);
         killStone(killId);
-//        if (_s[killId]._type == Stone::JIANG)
-//        {
-//            if (_s[killId]._red)
-//            {
-//                _isRedJiangAlive = false;
-//            }
-//            sigOver();
-//        }
         moveStone(_selectedId, row, col);
+        if (_s[killId]._type == Stone::JIANG)
+        {
+            if (_s[killId]._red)
+            {
+                emit sigBlackWin();
+            }
+            else
+                emit sigRedWin();
+        }
         _selectedId = -1;
         update();
     }
@@ -350,11 +367,11 @@ bool Board::canMoveSHI(int moveId, int row, int col, int)
     if (col < 3 || col > 5) return false;
     if (isBottom(moveId))
     {
-        if (row > 2) return false;
+        if (row < 7) return false;
     }
     else
     {
-        if (row < 7) return false;
+        if (row > 2) return false;
     }
 
     int dr = _s[moveId]._row - row;
