@@ -10,18 +10,21 @@
  */
 
 #include <QApplication>
-#include "SingleGame.h"
+#include <QDialog>
+
+#include "MainWindow.h"
+#include "ChooseDlg.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-//    // 人机对战
-//    SingleGame board;
-//     双人模式
-    Board board;
+    ChooseDlg choosDlg;
+    if (choosDlg.exec() != QDialog::Accepted)
+        return 0;
 
-    board.show();
+    MainWindow w(choosDlg._selected);
+    w.show();
 
     return app.exec();
 }

@@ -14,7 +14,7 @@
 
 static const int INF = 999999;
 
-SingleGame::SingleGame()
+SingleGame::SingleGame(QWidget *parent): Board(parent)
 {
     _level = 3;
 }
@@ -22,7 +22,16 @@ SingleGame::SingleGame()
 void SingleGame::computerMove()
 {
     auto step = getBestMove();
+    saveStep(step, _steps);
     killStone(step->_killId);
+//    if (_s[step->_killId]._type == Stone::JIANG)
+//    {
+//        if (_s[step->_killId]._red)
+//        {
+//            _isRedJiangAlive = false;
+//        }
+//        sigOver();
+//    }
     moveStone(step->_moveId, step->_rowTo, step->_colTo);
     _selectedId = -1;
     update();
@@ -76,16 +85,6 @@ void SingleGame::fakeMove(std::shared_ptr<Step> step)
 {
     killStone(step->_killId);
     moveStone(step->_moveId, step->_rowTo, step->_colTo);
-    return;
-}
-
-void SingleGame::relieveStone(int id, int row, int col)
-{
-    if (id == -1) return;
-    auto p = std::make_pair(row, col);
-    _s[id]._row = row;
-    _s[id]._col = col;
-    _posMap[p] = id;
     return;
 }
 

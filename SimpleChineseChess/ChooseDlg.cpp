@@ -1,5 +1,5 @@
 /*
- @Date    : 2018-03-21 16:54:08
+ @Date    : 2018-03-23 12:52:03
  @Author  : 酸饺子 (changzheng300@foxmail.com)
  @Link    : https://github.com/SourDumplings
  @Version : $Id$
@@ -12,29 +12,31 @@
 #include "ChooseDlg.h"
 #include <QVBoxLayout>
 
-ChooseDlg::ChooseDlg(QWidget *parent): QDialog(parent)
+ChooseDlg::ChooseDlg(QWidget *parent) : QDialog(parent)
 {
-    QVBoxLayout *lay = new QVBoxLayout(this);
-    lay->addWidget(_buttons[0] = new QPushButton("单人对弈"));
-    lay->addWidget(_buttons[1] = new QPushButton("双人对弈"));
+    QVBoxLayout* lay = new QVBoxLayout(this);
+    lay->addWidget(onePGameMode = new QPushButton("人机对战"));
+    lay->addWidget(twoPGameMode = new QPushButton("人人对战"));
 
-    for (int i = 0; i != 2; ++i)
-    {
-        connect(_buttons[i], SIGNAL(clicked()), this, SLOT(slotClicked()));
-    }
+    _label = new QLabel;
+    _label->setText("--by SourDumplings");
+    lay->addWidget(_label);
+
+    setMinimumSize(300, 100);
+
+    connect(onePGameMode, SIGNAL(clicked()), this, SLOT(slotClicked()));
+    connect(twoPGameMode, SIGNAL(clicked()), this, SLOT(slotClicked()));
 }
 
 void ChooseDlg::slotClicked()
 {
     QObject *s = sender();
-    for(int i = 0; i != 2; ++i)
-    {
-        if(_buttons[i] == s)
-        {
-            _selected = i;
-            break;
-        }
-    }
+    if (s == onePGameMode)
+        _selected = 1;
+    else if (s == twoPGameMode)
+        _selected = 2;
     accept();
     return;
 }
+
+

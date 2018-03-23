@@ -13,7 +13,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include <QWidget>
+#include <QFrame>
 #include "Stone.h"
 #include <map>
 #include "Step.h"
@@ -22,7 +22,7 @@
 
 // 棋盘,10横9竖
 
-class Board : public QWidget
+class Board : public QFrame
 {
     Q_OBJECT
 public:
@@ -34,6 +34,7 @@ public:
     std::map<std::pair<int, int>, int> _posMap; // 存储各个棋子的棋盘坐标
     int _selectedId;
     bool _isRedTurn;
+    bool _isRedJiangAlive = true;
 
     QVector<std::shared_ptr<Step>> _steps;
 
@@ -55,10 +56,13 @@ public:
     void click(QPoint pt);
     virtual void clickStone(int id, int row, int col);
     void saveStep(int moveid, int row, int col, QVector<std::shared_ptr<Step>>& steps, int killid);
+    void saveStep(std::shared_ptr<Step> step, QVector<std::shared_ptr<Step>>& steps);
     void trySelectStone(int id);
     void tryMoveStone(int killid, int row, int col);
     void moveStone(int moveId, int row, int col);
     void killStone(int id);
+    void relieveStone(int id, int row, int col);
+    void backOneStep();
 
     // moving rules
     bool canMove(int moveId, int row, int col, int killId);
@@ -71,8 +75,9 @@ public:
     bool canMoveXIANG(int moveId, int row, int col, int killId);
 
 signals:
-
+//    void sigOver();
 public slots:
+    void slotBack();
 };
 
 #endif // BOARD_H

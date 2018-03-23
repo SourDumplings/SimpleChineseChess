@@ -15,13 +15,14 @@
 #include <QMouseEvent>
 #include <cmath>
 
-Board::Board(QWidget *parent) : QWidget(parent)
+Board::Board(QWidget *parent) : QFrame(parent)
 {
     for (int i = 0; i != 32; ++i)
     {
         _s[i].init(i);
         _posMap[std::make_pair(_s[i]._row, _s[i]._col)] = i;
     }
+    setMinimumSize(_r*20+1, _r*23+1);
     _selectedId = -1;
     _isRedTurn = true;
 }
@@ -160,6 +161,13 @@ void Board::trySelectStone(int id)
      step->_killId = killId;
 
      steps.append(step);
+
+    return;
+}
+
+void Board::saveStep(std::shared_ptr<Step> step, QVector<std::shared_ptr<Step> > &steps)
+{
+    saveStep(step->_moveId, step->_rowTo, step->_colTo, steps, step->_killId);
     return;
 }
 
@@ -199,6 +207,14 @@ void Board::tryMoveStone(int killId, int row, int col)
     {
         saveStep(_selectedId, row, col, _steps, killId);
         killStone(killId);
+//        if (_s[killId]._type == Stone::JIANG)
+//        {
+//            if (_s[killId]._red)
+//            {
+//                _isRedJiangAlive = false;
+//            }
+//            sigOver();
+//        }
         moveStone(_selectedId, row, col);
         _selectedId = -1;
         update();
@@ -464,4 +480,48 @@ bool Board::canMoveXIANG(int moveId, int row, int col, int)
         return true;
     }
     return false;
+}
+
+void Board::relieveStone(int id, int row, int col)
+{
+    if (id == -1) return;
+    auto p = std::make_pair(row, col);
+    _s[id]._row = row;
+    _s[id]._col = col;
+    _posMap[p] = id;
+    return;
+}
+
+void Board::slotBack()
+{
+    backOneStep();
+    return;
+}
+
+void Board::backOneStep()
+{
+    if (_steps.empty()) return;
+
+    std::shared_ptr<Step> lastStep = _steps.back(); _steps.pop_back();
+    moveStone(lastStep->_moveId, lastStep->_rowFrom, lastStep->_colFrom);
+    if (lastStep->_killId != -1)
+    {
+        relieveStone(lastStep->_killId, lastStep->_rowTo, lastStep->_colTo);
+    }
+
+    if (_steps.empty())
+    {
+        _isRedTurn = !_isRedTurn;
+        update();
+        return;
+    }
+
+    lastStep = _steps.back(); _steps.pop_back();
+    moveStone(lastStep->_moveId, lastStep->_rowFrom, lastStep->_colFrom);
+    if (lastStep->_killId != -1)
+    {
+        relieveStone(lastStep->_killId, lastStep->_rowTo, lastStep->_colTo);
+    }
+    update();
+    return;
 }
