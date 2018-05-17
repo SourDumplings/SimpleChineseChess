@@ -1,4 +1,4 @@
-/*
+﻿/*
  @Date    : 2018-03-23 12:52:03
  @Author  : 酸饺子 (changzheng300@foxmail.com)
  @Link    : https://github.com/SourDumplings
@@ -11,6 +11,8 @@
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
+#include "encoding.h"
 
 #include <QWidget>
 #include <QPushButton>

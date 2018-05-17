@@ -1,4 +1,4 @@
-/*
+﻿/*
  @Date    : 2018-03-21 16:54:08
  @Author  : 酸饺子 (changzheng300@foxmail.com)
  @Link    : https://github.com/SourDumplings
@@ -11,6 +11,8 @@
 
 #ifndef SINGLEGAME_H
 #define SINGLEGAME_H
+
+#include "encoding.h"
 
 #include "Board.h"
 

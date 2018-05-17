@@ -1,4 +1,4 @@
-/*
+﻿/*
  @Date    : 2018-03-21 16:54:08
  @Author  : 酸饺子 (changzheng300@foxmail.com)
  @Link    : https://github.com/SourDumplings
@@ -70,7 +70,7 @@ void SingleGame::getAllPossibleMove(QVector<std::shared_ptr<Step> > &steps)
             for (int col = 0; col < 9; ++col)
             {
                 int killId = getStoneId(row, col);
-                if (_s[p.second]._red == _s[killId]._red)
+                if (killId != -1 && _s[p.second]._red == _s[killId]._red)
                     continue;
                 if (canMove(p.second, row, col, killId))
                 {
