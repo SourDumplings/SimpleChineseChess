@@ -6,7 +6,8 @@ HEADERS += \
     MainWindow.h \
     ChooseDlg.h \
     CtrlPanel.h \
-    MultiGame.h
+    MultiGame.h \
+	NetGame.h
 
 SOURCES += \
     Board.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     MainWindow.cpp \
     ChooseDlg.cpp \
     CtrlPanel.cpp \
-    MultiGame.cpp
+    MultiGame.cpp \
+	NetGame.cpp
 
-QT += widgets gui
+QT += widgets gui network

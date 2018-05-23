@@ -17,7 +17,7 @@ Stone::Stone()
 
 }
 
-void Stone::init(int id)
+void Stone::init(int id, bool isRedAtBottom)
 {
     struct
     {
@@ -45,19 +45,20 @@ void Stone::init(int id)
     };
 
     _id = id;
-    _red = _id < 16;
+    _red = _id < 16; // id从0~15是红棋
+	_bornAtBottom = (_red && isRedAtBottom) || (!_red && !isRedAtBottom);
+	int posId = _id > 15 ? _id - 16 : _id;
+	_type = pos[posId].type;
 
-    if (_id > 15)
+    if (_bornAtBottom)
     {
-        _row = pos[_id-16].row;
-        _col = pos[_id-16].col;
-        _type = pos[_id-16].type;
+        _row = 9 - pos[posId].row;
+        _col = 8 - pos[posId].col;
     }
     else
     {
-        _row = 9 - pos[_id].row;
-        _col = 8 - pos[_id].col;
-        _type = pos[_id].type;
+        _row = pos[posId].row;
+        _col = pos[posId].col;
     }
     return;
 }

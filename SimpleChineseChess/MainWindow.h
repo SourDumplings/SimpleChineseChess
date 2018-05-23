@@ -17,6 +17,10 @@
 #include <QWidget>
 #include <QPushButton>
 
+#include "MultiGame.h"
+#include "SingleGame.h"
+#include "NetGame.h"
+
 class MainWindow : public QWidget
 {
     Q_OBJECT

@@ -1,29 +1,35 @@
-#ifndef NETGAME_H
-#define NETGAME_H
-
+﻿#pragma once
 #include "Board.h"
-#include <QTcpServer>
-#include <QTcpSocket>
+#include "encoding.h"
 
-// 一个程序为服务器，一个为客户端
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
 
 /*
- * 红方还是黑方，由服务端发出，客户端接收
- * 点击信息
- */
+	信息及报文结构：
+	1.执红方还是黑方，服务端发出，客户端接收
+	第一个字节固定是1，第二个字节1表示接收方走红棋，0表示接收方走黑棋
+	2.点击信息
+	第一个字节固定是2，第二个字节是row，第三个是col，第四个是点击的棋子id
 
+*/
 
-class NetGame: public Board
+class NetGame :
+	public Board
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    NetGame(bool server);
+	NetGame(bool isServer);
+	~NetGame();
+	void clickStone(int id, int row, int col) override;
 
-    std::shared_ptr<QTcpServer> _server;
-    std::shared_ptr<QTcpSocket> _socket;
+private:
+	QTcpServer *_server;
+	QTcpSocket *_socket;
 
 public slots:
-    void slotNewConnection();
+	void slotNewConnecion();
+	void slotRecv();
+
 };
 
-#endif // NETGAME_H

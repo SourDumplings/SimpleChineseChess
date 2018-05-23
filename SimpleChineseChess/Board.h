@@ -29,7 +29,7 @@ class Board : public QFrame
 public:
     explicit Board(QWidget *parent = nullptr);
 
-    void init();
+    void init(bool isRedAtBottom = true);
 
     const int _r = 20; // 棋子的半径
 
@@ -37,6 +37,7 @@ public:
     std::map<std::pair<int, int>, int> _posMap; // 存储各个棋子的棋盘坐标
     int _selectedId;
     bool _isRedTurn;
+	bool _isRedAtBottom;
 
     QVector<std::shared_ptr<Step>> _steps;
 

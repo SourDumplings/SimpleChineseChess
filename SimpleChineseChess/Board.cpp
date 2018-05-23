@@ -17,20 +17,20 @@
 
 Board::Board(QWidget *parent) : QFrame(parent)
 {
-    init();
+    init(true);
 }
 
-
-void Board::init()
+void Board::init(bool isRedAtBottom)
 {
     for (int i = 0; i != 32; ++i)
     {
-        _s[i].init(i);
+        _s[i].init(i, isRedAtBottom);
         _posMap[std::make_pair(_s[i]._row, _s[i]._col)] = i;
     }
     setMinimumSize(_r*20+1, _r*23+1);
     _selectedId = -1;
     _isRedTurn = true;
+	_isRedAtBottom = isRedAtBottom;
     return;
 }
 
@@ -38,7 +38,7 @@ void Board::slotReStart()
 {
     _steps.clear();
     _posMap.clear();
-    init();
+    init(_isRedAtBottom);
     update();
     return;
 }
@@ -268,7 +268,7 @@ void Board::mouseReleaseEvent(QMouseEvent *ev)
 
 bool Board::isBottom(int id)
 {
-    return _s[id]._red;
+    return _s[id]._bornAtBottom;
 }
 
 

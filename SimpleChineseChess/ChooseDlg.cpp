@@ -17,6 +17,7 @@ ChooseDlg::ChooseDlg(QWidget *parent) : QDialog(parent)
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->addWidget(onePGameMode = new QPushButton("人机对战"));
     lay->addWidget(twoPGameMode = new QPushButton("人人对战"));
+	lay->addWidget(netGameMode = new QPushButton("网络对战"));
 
     _label = new QLabel;
     _label->setText("--by SourDumplings");
@@ -26,6 +27,7 @@ ChooseDlg::ChooseDlg(QWidget *parent) : QDialog(parent)
 
     connect(onePGameMode, SIGNAL(clicked()), this, SLOT(slotClicked()));
     connect(twoPGameMode, SIGNAL(clicked()), this, SLOT(slotClicked()));
+	connect(netGameMode, SIGNAL(clicked()), this, SLOT(slotClicked()));
 }
 
 void ChooseDlg::slotClicked()
@@ -35,6 +37,10 @@ void ChooseDlg::slotClicked()
         _selected = 1;
     else if (s == twoPGameMode)
         _selected = 2;
+	else if (s == netGameMode)
+	{
+		_selected = 3;
+	}
     accept();
     return;
 }

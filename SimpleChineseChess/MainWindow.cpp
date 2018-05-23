@@ -12,8 +12,6 @@
 #include "MainWindow.h"
 #include "CtrlPanel.h"
 #include <QHBoxLayout>
-#include "MultiGame.h"
-#include "SingleGame.h"
 #include <QMessageBox>
 
 MainWindow::MainWindow(int gameType, QWidget *parent) : QWidget(parent)
@@ -44,6 +42,20 @@ MainWindow::MainWindow(int gameType, QWidget *parent) : QWidget(parent)
         connect(game, SIGNAL(sigBlackWin()), this, SLOT(slotBlackWin()));
         connect(game, SIGNAL(sigRedWin()), this, SLOT(slotRedWin()));
     }
+	else if (gameType == 3)
+	{
+		QMessageBox::StandardButton ret = QMessageBox::question(nullptr, "server or client", "是否作为服务器启动？");
+		NetGame *game = new NetGame(ret == QMessageBox::Yes);
+		CtrlPanel *panel = new CtrlPanel;
+
+		QHBoxLayout *hLay = new QHBoxLayout(this);
+		hLay->addWidget(game, 1);
+		hLay->addWidget(panel);
+		connect(panel, SIGNAL(sigBack()), game, SLOT(slotBack()));
+		connect(panel, SIGNAL(sigReStart()), game, SLOT(slotReStart()));
+		connect(game, SIGNAL(sigBlackWin()), this, SLOT(slotBlackWin()));
+		connect(game, SIGNAL(sigRedWin()), this, SLOT(slotRedWin()));
+	}
 }
 
 void MainWindow::slotBlackWin()
@@ -57,3 +69,4 @@ void MainWindow::slotRedWin()
     QMessageBox::about(nullptr, "Game Over", "红方胜。");
     return;
 }
+

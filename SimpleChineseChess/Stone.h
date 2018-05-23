@@ -31,9 +31,10 @@ public:
     int _col;
     int _id;
     bool _red;
+	bool _bornAtBottom;
     TYPE _type;
 
-    void init(int id);
+    void init(int id, bool isRedAtBottom = true);
 
     QString getText();
 };

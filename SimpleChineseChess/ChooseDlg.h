@@ -26,7 +26,7 @@ class ChooseDlg : public QDialog
 public:
     explicit ChooseDlg(QWidget *parent = nullptr);
 
-    QPushButton *onePGameMode,  *twoPGameMode;
+    QPushButton *onePGameMode,  *twoPGameMode, *netGameMode;
     int _selected;
     QLabel *_label;
 

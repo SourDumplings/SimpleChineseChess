@@ -42,6 +42,9 @@
     <ClCompile Include="MultiGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NetGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SingleGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,6 +74,9 @@
     <ClInclude Include="MultiGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="NetGame.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="SingleGame.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -82,22 +88,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="encoding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SimpleChineseChess.rc" />
   </ItemGroup>
 </Project>
