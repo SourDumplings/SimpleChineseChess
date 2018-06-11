@@ -1,0 +1,26 @@
+﻿  Generate moc_predefs.h
+  Moc'ing Board.h...
+  Moc'ing ChooseDlg.h...
+  Moc'ing CtrlPanel.h...
+  Moc'ing MainWindow.h...
+  Moc'ing NetGame.h...
+  Moc'ing SingleGame.h...
+  Moc'ing Step.h...
+  Board.cpp
+  ChooseDlg.cpp
+  CtrlPanel.cpp
+  MainWindow.cpp
+  MultiGame.cpp
+  NetGame.cpp
+  SingleGame.cpp
+  Step.cpp
+  Stone.cpp
+  main.cpp
+  moc_Board.cpp
+  moc_ChooseDlg.cpp
+  moc_CtrlPanel.cpp
+  moc_MainWindow.cpp
+  moc_NetGame.cpp
+  moc_SingleGame.cpp
+  moc_Step.cpp
+  SimpleChineseChess.vcxproj -> E:\codes\Github Shared\SimpleChineseChess\SimpleChineseChess\release\SimpleChineseChess.exe
